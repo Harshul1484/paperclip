@@ -337,7 +337,7 @@ describe("codex_local ACP lane", () => {
     const root = await makeTempRoot("paperclip-codex-acp-pathext-");
     const binDir = path.join(root, "bin");
     await fs.mkdir(binDir, { recursive: true });
-    await fs.writeFile(path.join(binDir, "codex-acp.exe"), "", "utf8");
+    await fs.writeFile(path.join(binDir, "codex-acp.EXE"), "", "utf8");
     setNodeVersion("v24.11.0");
     const originalPlatform = process.platform;
     const originalPath = process.env.PATH;

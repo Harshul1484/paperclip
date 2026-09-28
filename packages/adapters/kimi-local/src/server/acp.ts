@@ -23,6 +23,7 @@ import type { AcpxEngineExecutorOptions } from "@paperclipai/adapter-utils/acpx-
 import {
   asNumber,
   asString,
+  commandPathCandidates,
   parseObject,
 } from "@paperclipai/adapter-utils/server-utils";
 import { DEFAULT_KIMI_LOCAL_MODEL } from "../index.js";
@@ -189,8 +190,9 @@ function firstShellToken(command: string): string | null {
 async function findCommandOnPath(binName: string, pathValue = process.env.PATH ?? ""): Promise<string | null> {
   for (const segment of pathValue.split(path.delimiter)) {
     if (!segment) continue;
-    const candidate = path.join(segment, binName);
-    if (await pathExists(candidate)) return candidate;
+    for (const candidate of commandPathCandidates(segment, binName, { includeBareName: true })) {
+      if (await pathExists(candidate)) return candidate;
+    }
   }
   return null;
 }
